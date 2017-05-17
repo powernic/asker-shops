@@ -1,0 +1,294 @@
+
+
+.nano::-webkit-scrollbar  {
+    width: 5px;
+}
+
+/**  STYLE 1 */
+.nano::-webkit-scrollbar-thumb {
+    background-color: #bfc1c2;
+}
+#shop-filter>* {
+    display: inline-block;
+    position: relative;
+}
+#shop-filter .nano {
+    position: absolute;
+    overflow-x: hidden;
+}
+.title-filter{
+    line-height: 50px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #ff690d;
+}
+#shop-filter {
+    background-color: #eeeeee;
+    color:#3e464c;
+    margin-top: 20px;
+    padding: 0 27px;
+    margin-bottom: 55px;
+    box-shadow: 0px 7px 25px -11px #000
+}
+.title-filter .icon {
+    position: relative;
+    top: 3px;
+    margin-right: 9px;
+}
+.filter-param ul{
+    -webkit-transition: all 1s;
+    transition: all 1s;
+    max-height: 0;
+    background-color: #eeeeee;
+    min-width: 100%;
+    list-style: none;
+    margin: 0;
+    z-index: 1;
+    padding: 0 15px;
+    box-shadow: 0px 7px 16px -6px rgba(0, 0, 0, 0.64);
+}
+a.filter-reset {
+    color: #000;
+    position: absolute;
+    line-height: 15px;
+    border-bottom: 1px dashed #989898;
+    right: 0;
+    top: 21px;
+}
+
+a.filter-reset:hover {
+    color: #ff690d;
+    border-color: #ff690d;
+}
+
+a.filter-reset:after {
+    content: "x";
+    margin-left: 5px;
+    font-family: monospace;
+    position: absolute;
+}
+.filter-param > span{
+    line-height: 50px;
+    font-weight: bold;
+    font-size: 15px;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+    padding: 0 25px;
+}
+#shopmap{
+    height: 420px;
+}
+.filter-param .nano label>.filter-check {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    display: inline-block;
+    border: 2px solid #fff;
+    outline: 1px solid #d8dbde;
+    margin-right: 8px;
+}
+.filter-param .nano label>input:checked+.filter-check {
+    background-color: #ff690d;
+    border: 2px solid #fff;
+}
+.filter-text {
+    border-bottom: 1px dashed #bfbfbf;
+}
+.filter-param .nano label>input:checked+.filter-text {
+    border-color:#ff690d;
+}
+.filter-param .nano label {
+    font-size: 13px;
+    display:block;
+    line-height: 24px;
+}
+.filter-param .nano label:hover{
+    cursor:pointer;
+    color:#ff690d;
+}
+.filter-param .nano label > input {
+    display: none;
+}
+.filter-param .icon:before {
+    font-size: 8px;
+    margin-left: 7px;
+    top: -2px;
+    position: relative;
+}
+
+.filter-param:hover{
+    cursor:pointer;
+    box-shadow: 0px 7px 16px -6px rgba(0, 0, 0, 0.64);
+}
+.filter-param:hover ul.nano{
+    max-height: 360px;
+}
+#shop-filter .filter-param ul li:first-child {
+    margin-top:10px;
+}
+#shop-filter .filter-param ul li:last-child {
+    margin-bottom:10px;
+}
+.filter-text {
+    border-bottom: 1px dashed #bfbfbf;
+}
+.filter-reset{
+    float:right;
+}
+.baloon-shop{
+    position: relative;
+    width:310px;
+    background-color:#fff;
+}
+.balloon-header{
+    height: 54px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image:url(/wp-content/plugins/asker-shops/assets/images/logo.png) ;
+}
+.balloon-body li{
+    padding-left: 30px;
+    position: relative;
+    text-align: left;
+    font-size: 15px;
+    margin: 10px 0px;
+}
+.balloon-body {
+    background-color: #eeeeee;
+}
+
+.balloon-body ul {
+    margin: 0;
+    padding: 10px 20px;
+    list-style: none;
+}
+.balloon-body li:before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    display: inline-block;
+    background-image: url(/wp-content/plugins/asker-shops/assets/images/sprite.png);
+    background-repeat: no-repeat;
+}
+.balloon-body li {
+    padding-left: 30px;
+    position: relative;
+    text-align: left;
+    font-size: 15px;
+    margin: 10px 0px;
+}
+
+.baloon-address:before {
+    background-position: center 0;
+}
+
+.baloon-time:before {
+    background-position: center -24px;
+}
+
+.baloon-phone:before {
+    background-position: center -50px;
+}.baloon-shop .close {
+     position: absolute;
+     right: 5px;
+     color: #000;
+     top: 5px;
+     font-weight: bold;
+     font-size: 20px;
+ }
+
+.baloon-shop .close:hover {
+    color: #989898;
+}
+
+.balloon-body ul>span {
+    color: #ff690d;
+    font-weight: bold;
+    display: inline-block;
+    padding-lefT: 30px;
+}
+.baloon-shop .arrow, .baloon-shop .arrow:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+.baloon-shop .arrow {
+    bottom: -11px;
+    left: 50%;
+    margin-left: -11px;
+    border-top-color: #999;
+    border-top-color: rgba(0,0,0,0.25);
+    border-width: 11px;
+    border-bottom-width: 0;
+}
+.baloon-shop .arrow:after {
+    bottom: 1px;
+    margin-left: -10px;
+    border-top-color: #fff;
+    border-width: 10px;
+    border-bottom-width: 0;
+    content: "";
+}
+.balloon-footer a {
+    color: #ff690d;
+    border-bottom: 1px dashed #ff690d;
+    font-style: italic;
+}
+
+.balloon-footer {
+    padding: 10px 20px;
+}
+
+.balloon-footer a:hover {
+    border-color: #ff9758;
+    color: #ff9758;
+}
+#shop-trace {
+    width: 455px;
+    color: #000;
+    padding: 20px;
+    position: absolute;
+    z-index: 13;
+    top: 100px;
+    background: #eeeeee;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+#shop-trace .close-modal {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    z-index: 5;
+    background-position: 0 0;
+    width: 23px;
+    height: 23px;
+    background-image: url(/wp-content/themes/armtek/inc/img/sprite.png);
+}
+#calcRoute:hover{
+    cursor:pointer;
+}
+.shop-info{
+    font-size:15px;
+    line-height:20px;
+}
+#calcRoute,#calcRouteRemove {
+    background: rgba(255,106,13,1);
+    background: -moz-linear-gradient(left, rgba(255,106,13,1) 0%, rgba(250,124,70,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,106,13,1)), color-stop(100%, rgba(250,124,70,1)));
+    background: -webkit-linear-gradient(left, rgba(255,106,13,1) 0%, rgba(250,124,70,1) 100%);
+    background: -o-linear-gradient(left, rgba(255,106,13,1) 0%, rgba(250,124,70,1) 100%);
+    background: -ms-linear-gradient(left, rgba(255,106,13,1) 0%, rgba(250,124,70,1) 100%);
+    background: linear-gradient(to right, rgba(255,106,13,1) 0%, rgba(250,124,70,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff6a0d', endColorstr='#fa7c46', GradientType=1 );
+    border-radius: 2px;
+    border: 0;
+    box-shadow: 0px 1px 0px #df5a20;
+    color: #fff;
+    line-height: 30px;
+    padding: 0 15px;
+}

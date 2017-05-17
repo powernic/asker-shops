@@ -1,0 +1,9 @@
+#shop-form .button-edit {
+    opacity: 0;
+}
+#shop-form tr:hover .button-edit {
+    opacity: 1;
+}
+#quick-edit-blank{
+    display:none;
+}
