@@ -1,5 +1,3 @@
-
-
 .nano::-webkit-scrollbar  {
     width: 5px;
 }
@@ -16,7 +14,7 @@
     position: absolute;
     overflow-x: hidden;
 }
-.title-filter{
+#shop-filter .title-filter{
     line-height: 50px;
     font-weight: bold;
     font-size: 15px;
@@ -30,12 +28,12 @@
     margin-bottom: 55px;
     box-shadow: 0px 7px 25px -11px #000
 }
-.title-filter .icon {
+#shop-filter .title-filter .icon {
     position: relative;
     top: 3px;
     margin-right: 9px;
 }
-.filter-param ul{
+#shop-filter .filter-param ul{
     -webkit-transition: all 1s;
     transition: all 1s;
     max-height: 0;
@@ -47,39 +45,39 @@
     padding: 0 15px;
     box-shadow: 0px 7px 16px -6px rgba(0, 0, 0, 0.64);
 }
-a.filter-reset {
+#shop-filter a.filter-reset {
     color: #000;
-    position: absolute;
     line-height: 15px;
     border-bottom: 1px dashed #989898;
     right: 0;
     top: 21px;
 }
 
-a.filter-reset:hover {
+#shop-filter a.filter-reset:hover {
     color: #ff690d;
     border-color: #ff690d;
 }
 
-a.filter-reset:after {
+#shop-filter a.filter-reset:after {
     content: "x";
     margin-left: 5px;
     font-family: monospace;
     position: absolute;
 }
-.filter-param > span{
+#shop-filter .filter-param > span{
     line-height: 50px;
     font-weight: bold;
     font-size: 15px;
     text-transform: uppercase;
-    z-index: 2;
+    z-index: 1;
     position: relative;
     padding: 0 25px;
 }
 #shopmap{
     height: 420px;
+    position: relative;
 }
-.filter-param .nano label>.filter-check {
+#shop-filter .filter-param .nano label>.filter-check {
     width: 8px;
     height: 8px;
     background-color: #fff;
@@ -87,41 +85,46 @@ a.filter-reset:after {
     border: 2px solid #fff;
     outline: 1px solid #d8dbde;
     margin-right: 8px;
+    position: absolute;
+    left: -3px;
+    top: 8px;
 }
-.filter-param .nano label>input:checked+.filter-check {
+#shop-filter .filter-param .nano label>input:checked+.filter-check {
     background-color: #ff690d;
     border: 2px solid #fff;
 }
-.filter-text {
+#shop-filter .filter-text {
     border-bottom: 1px dashed #bfbfbf;
 }
-.filter-param .nano label>input:checked+.filter-text {
+#shop-filter .filter-param .nano label>input:checked+.filter-text {
     border-color:#ff690d;
 }
-.filter-param .nano label {
+#shop-filter .filter-param .nano label {
     font-size: 13px;
-    display:block;
+    display: block;
     line-height: 24px;
+    padding-left: 10px;
+    position: relative;
 }
-.filter-param .nano label:hover{
+#shop-filter .filter-param .nano label:hover{
     cursor:pointer;
     color:#ff690d;
 }
-.filter-param .nano label > input {
+#shop-filter .filter-param .nano label > input {
     display: none;
 }
-.filter-param .icon:before {
+#shop-filter .filter-param .icon:before {
     font-size: 8px;
     margin-left: 7px;
     top: -2px;
     position: relative;
 }
 
-.filter-param:hover{
+#shop-filter.filter-param:hover{
     cursor:pointer;
     box-shadow: 0px 7px 16px -6px rgba(0, 0, 0, 0.64);
 }
-.filter-param:hover ul.nano{
+#shop-filter .filter-param:hover ul.nano{
     max-height: 360px;
 }
 #shop-filter .filter-param ul li:first-child {
@@ -130,12 +133,13 @@ a.filter-reset:after {
 #shop-filter .filter-param ul li:last-child {
     margin-bottom:10px;
 }
-.filter-text {
+#shop-filter .filter-text {
     border-bottom: 1px dashed #bfbfbf;
 }
-.filter-reset{
+#shop-filter .filter-reset{
     float:right;
 }
+
 .baloon-shop{
     position: relative;
     width:310px;
@@ -291,4 +295,268 @@ a.filter-reset:after {
     color: #fff;
     line-height: 30px;
     padding: 0 15px;
+}
+.shop-item > div,.shop-header > div  {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 5px 10px;
+}
+
+.shop-item {
+    display: table-row;
+    width: 100%;
+}
+
+.shop-item:nth-child(odd) {
+    background-color: #efefef;
+}
+
+#list-shop {
+    display: table;
+    width: 100%;
+}
+
+.shop-header {
+    display: table-row;
+    width: 100%;
+    background-color: #fff;
+    font-weight: bold;
+    line-height: 40px;
+}
+.shop-item {
+    display: table-row;
+    width: 100%;
+}
+.shop-header > div {
+}
+
+.shop-item:hover {
+    outline: 1px solid #ff7119;
+}
+.filter-view a {
+    margin: 0 5px;
+    color: #4c5459!important;
+    border-bottom: none!important;
+}
+.filter-view a.active {
+    color: #ff7119!important;
+    border-bottom: 1px dashed #ff7119!important;
+}
+
+
+.tab-contacts,
+.tab-switch-maps-contacts{
+    background-color: #eeeeee;
+    color: #3e464c;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 7px 25px -11px #000;
+    display:table;
+    width:100%;
+}
+.tab-contacts > a,
+.tab-switch-maps-contacts > a{
+    line-height:50px;
+    font-size:15px;
+    font-weight:bold;
+    text-transform:uppercase;
+    color: #3e464c!important;
+    display:table-cell;
+    text-align:center;
+    position:relative;
+}
+.tab-switch-maps-contacts > a{
+    width: 50%;
+}
+@media (max-width: 695px) {
+    .tab-switch-maps-contacts > a{
+        width: 100%;
+        display: block;
+    }
+}
+
+.tab-contacts>a:after,
+.tab-switch-maps-contacts > a:after{
+    content:'';
+    width:1px;
+    display:block;
+    height:10px;
+    background-color:#c6cfd8;
+    position:absolute;
+    right:0;
+    top:20px;
+}
+.tab-contacts>a:last-child:after,
+.tab-switch-maps-contacts>a:last-child:after{
+    content:none;
+}
+.tab-contacts>a:hover,.tab-contacts>a.active,
+.tab-switch-maps-contacts>a:hover,.tab-switch-maps-contacts>a.active{
+    color: #ff7119!important;
+}
+
+.personal-left {
+    display: table-cell;
+    width: 71px;
+    vertical-align: middle;
+    text-align: center;
+}
+.personal-left img{
+    margin:0!important;
+}
+.personal-right {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 27px;
+    line-height: 1.4em;
+    font-size: 15px;
+}
+
+.personal-name {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.personal-item {
+    display: table;
+    padding: 30px 27px;
+    width: 100%;
+}
+.personal-item:hover{
+    outline:1px solid #ff7119;
+}
+.personal-item:nth-child(odd){
+    background-color: #eeeeee;
+}
+
+.personal-pos {
+    font-style: italic;
+}
+
+.personal-tel a {
+    color: #666!important;
+}
+.personal-tel a:hover{
+    color: #ff7119!important;
+}
+
+.personal-block>span{
+    font-size:15px;
+    font-weight:bold;
+    line-height:50px;
+    padding-left:27px;
+}
+.tab-contacts-items > div{
+    display:none;
+}
+.tab-contacts-items > .active{
+    display:block;
+}
+
+#shop-maps{
+    display: block;
+}
+
+#maps,
+#contacts{
+    display: none;
+}
+#maps.active,
+#contacts.active{
+    display: block;
+}
+@media (max-width: 695px) {
+    #shop-filter>*{
+        display: block;
+        border-top: 1px solid #bbbbbb;
+    }
+    #shop-filter>*:first-child {
+        border-top: 0;
+    }
+    #shop-filter .nano{
+        position: relative;
+    }
+    .filter-param ul,.filter-param:hover{
+        box-shadow: none;
+    }
+    .otherpage#main-info .content .filter-reset {
+        color: #3e464c;
+        border-bottom: 0;
+        float: inherit;
+        top: 0;
+        display: block;
+        padding: 20px 25px;
+        text-decoration: underline;
+    }
+    .shop-header {
+         display: none;
+     }
+
+    .shop-item {
+        display: block;
+    }
+
+    .shop-item > div, .shop-header > div {
+        display: block;
+    }
+    .filter-view {
+        padding: 13px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    a.filter-reset {
+        right: auto;
+        top: auto;
+        float: none;
+        padding: 20px 21px;
+    }
+
+    .filter-view {
+        padding-left: 20px;
+    }
+    .tab-contacts>a{
+        display:block;
+    }
+    .personal-left{
+        display:block;
+        width: 100%;
+    }
+    .personal-right{
+        display: block;
+        padding: 0;
+    }
+    .personal-block>span{
+        padding-left: 0;
+    }
+
+
+    #shopmap:before {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: 1;
+        opacity: 0.4;
+    }
+
+    #shopmap:after {
+        position: absolute;
+        content: "Нажмите, чтобы открыть";
+        border: 1px solid #ddd;
+        width: 250px;
+        background-color: rgba(255, 255, 255, 0.7);
+        height: 90px;
+        text-align: center;
+        margin-left: -125px;
+        margin-top: -45px;
+        left: 50%;
+        font-size: 30px;
+        top: 50%;
+        z-index: 4;
+    }
+    ymaps[class$=balloon-pane]{
+        z-index: 3000!important;
+    }
 }

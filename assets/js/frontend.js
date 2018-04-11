@@ -12,6 +12,7 @@ function IntersecArrays(A,B)
 (function ($) {
     $(document).ready(function () {
 
+        window.selectedCity = '';
 
         lat = 53.902692;
         lan = 27.573522;
@@ -56,6 +57,9 @@ function IntersecArrays(A,B)
 
 
 // Инициализация карты.
+
+        var myMap = null; // карта глобально
+
         function init() {
 
 // Считываем адрес и координаты посетителя
@@ -71,7 +75,7 @@ function IntersecArrays(A,B)
                 myMap.redraw();	// перерисуем карту с "уточненными" координатами посетителя
             });
 
-            var myMap = new ymaps.Map("shopmap", {
+            myMap = new ymaps.Map("shopmap", {
                 center: [lat, lan],
                 zoom: zoom,
             });
@@ -141,18 +145,19 @@ function IntersecArrays(A,B)
             });
             var shopClusterer = new ymaps.Clusterer({
                 preset: 'islands#redClusterIcons',
-                clusterDisableClickZoom: false,
+                clusterDisableClickZoom: true,
                 clusterBalloonContentBodyLayout: "cluster#balloonCarouselContent"
             });
-
-            balloonLayout = ymaps.templateLayoutFactory.createClass(
-                '<div class="baloon-shop"><a class="close" href="#">×</a><div class="arrow"></div><div class="balloon-header"></div>'+
-                '<div class="balloon-body"><ul><span>{{ properties.shop.name }}</span>'+
+            var pointBodyLayout =
                 '<li class="baloon-address">{{ properties.shop.address }}</li>'+
                 '<li class="baloon-time">{{ properties.shop.time|raw }}</li>'+
-                '<li class="baloon-phone">{{ properties.shop.contacts|raw }}</li>'+
-                '</ul></div>'+
-                '<div class="balloon-footer"><a href="#">Как проехать?</a></div></div>', {
+                '<li class="baloon-phone">{{ properties.shop.contacts|raw }}</li>';
+            var pointFooterLayout ='<div class="balloon-footer"><a href="#">Как проехать?</a></div>';
+            balloonLayout = ymaps.templateLayoutFactory.createClass(
+                '<div class="baloon-shop"><a class="close" href="#">×</a><div class="arrow"></div><div class="balloon-header"></div>' +
+                '<div class="balloon-body"><ul><span>{{ properties.shop.name }}</span>'+
+                pointBodyLayout+
+                pointFooterLayout+'</ul></div></div>', {
 
                     build: function () {
                         this.constructor.superclass.build.call(this);
@@ -160,6 +165,53 @@ function IntersecArrays(A,B)
                         this.applyElementOffset();
                         this._$element.find('.close')
                             .on('click', $.proxy(this.onCloseClick, this));
+                        var geoObject = this.getData().geoObject,
+// карту
+                            map = geoObject.getMap(),
+                            coords = geoObject.geometry.getCoordinates(),
+                            container = $(this.getParentElement());
+                        container.find('.baloon-shop').each(function () {
+                            $(this).css({
+                                left: -Math.round($(this).outerWidth() / 2),
+                                top: -$(this).outerHeight()
+                            });
+                            var zoom = map.getZoom(),
+                                width = $(this).outerWidth(),
+                                height = $(this).outerHeight(),
+                                projection = map.options.get('projection'),
+// переводим геокоординаты геообъекта в пиксельные
+                                global = projection.toGlobalPixels(coords, zoom),
+// получаем пиксельные координаты центра карты
+                                center = map.getGlobalPixelCenter(),
+// получаем прямоугольник баллуна в пиксельных координатах
+// прямоугольник смещаем над точкой посередине
+                                balloonGlobalBounds = [[global[0] - Math.round(width / 2), global[1] + 0],
+                                    [global[0] + Math.round(width / 2), global[1] - height - 17]],
+                                bounds = map.getBounds(),
+// получаем вьюпорт карты в пиксельных координатах
+                                globalBounds = [projection.toGlobalPixels(bounds[0], zoom),
+                                    projection.toGlobalPixels(bounds[1], zoom)],
+// инициализируем смещение
+                                pan = [0, 0];
+// проверяем, находится ли прямоугольник баллуна внутри прямоугольника вьюпорта
+// если нет, то смещаем его и прибавляем 20 пикселей для красоты
+                            if (balloonGlobalBounds[0][0] < globalBounds[0][0]) {
+                                pan[0] = balloonGlobalBounds[0][0] - globalBounds[0][0] - 0
+                            } else if (balloonGlobalBounds[1][0] > globalBounds[1][0]) {
+                                pan[0] = balloonGlobalBounds[1][0] - globalBounds[1][0] + 20
+                            }
+                            if (balloonGlobalBounds[0][1] > globalBounds[0][1]) {
+                                pan[1] = balloonGlobalBounds[0][1] - globalBounds[0][1] + 20
+                            } else if (balloonGlobalBounds[1][1] < globalBounds[1][1]) {
+                                pan[1] = balloonGlobalBounds[1][1] - globalBounds[1][1] - 20
+                            }
+                            if (pan[0] || pan[1]) {
+                                center[0] += pan[0];
+                                center[1] += pan[1];
+// вызываем panTo
+                                map.panTo(projection.fromGlobalPixels(center, zoom), {delay: 0, duration: 500});
+                            }
+                        })
                     },
                     clear: function () {
                         this._$element.find('.close')
@@ -175,7 +227,7 @@ function IntersecArrays(A,B)
                     onSublayoutSizeChange: function () {
                         balloonLayout.superclass.onSublayoutSizeChange.apply(this, arguments);
 
-                        if(!this._isElement(this._$element)) {
+                        if (!this._isElement(this._$element)) {
                             return;
                         }
 
@@ -208,7 +260,7 @@ function IntersecArrays(A,B)
                 }
             ),
 
-            myMap.geoObjects.add(shopClusterer);
+                myMap.geoObjects.add(shopClusterer);
             var GeoObjects = [];
             function filterShops(){
                 shopClusterer.remove(GeoObjects);
@@ -228,7 +280,9 @@ function IntersecArrays(A,B)
                     filterObjects =  JSON.parse(JSON.stringify(shops));
                 }else {
                     $.each(shops, function (ind, shop) {
-                        if (dirs.indexOf(shop.unformat.dir) >= 0) {
+
+                        var intersec = IntersecArrays(dirs, shop.unformat.dir.split(','));
+                        if (intersec.length !== 0) {
                             filterObjects[ind] = shop;
                         }
                     });
@@ -236,23 +290,35 @@ function IntersecArrays(A,B)
                 if(services.length > 0) {
                     $.each(filterObjects, function (ind, shop) {
                         var intersec = IntersecArrays(services, shop.unformat.service.split(','));
-                        if (intersec.length == 0) {
+                        if (intersec.length < services.length) {
                             delete filterObjects[ind];
                         }
                     });
                 }
-                $.each(filterObjects,function(ind,shop) {
+
+                $('#list-shop .shop-item').remove();
+                $.each(filterObjects,function(ind,shop){
+                    //фильтруем список
+                    if(window.selectedCity == '' || shop.cities==window.selectedCity){
+                        $('#shop-item-empty .shop-item[data-shopID="'+ind+'"]').clone().appendTo('#list-shop');
+                    }
+                    var data = new ymaps.data.Manager({ properties: {shop: shop }});
+                    var templateContentBody = new ymaps.Template('<div class="balloon-body"><ul>'+pointBodyLayout+'</ul></div>');
+                    balloonContentBody = templateContentBody.build(data);
                     GeoObjects.push(new ymaps.Placemark([shop.unformat.lng,shop.unformat.lat], {
                         shop: shop,
-                        hintContent: [shop.unformat.lng,shop.unformat.lat],
-                    }, {
+                        balloonContentBody: balloonContentBody.text,
+                        balloonContentFooter: pointFooterLayout,
+                        clusterCaption: shop.name,
+                        hintContent: [shop.unformat.lng,shop.unformat.lat]
+                    },{
                         balloonLayout: balloonLayout,
                         iconLayout: 'default#image',
                         iconImageHref: '/wp-content/plugins/asker-shops/assets/images/placemarket.png',
                         // Отключаем режим панели для балуна.
                         balloonPanelMaxMapArea: 0,
                         iconImageSize: [41, 50],
-                        iconImageOffset: [-21, -41],  balloonAutoPan: true
+                        iconImageOffset: [-21, -41],
                     }));
                 });
                 for (var i = 0, len = GeoObjects.length; i < len; i++) {
@@ -267,32 +333,65 @@ function IntersecArrays(A,B)
                 shopClusterer.add(GeoObjects);
 
                 shopClusterer.events.add('balloonopen',
-                function (e) {
-                    var clusterGeoObjects = e.get('cluster').getGeoObjects();
-                    var hintContent = clusterGeoObjects[0].properties.get('hintContent');
-                    curPOI = hintContent;	// в hintContent мы ранее записали координаты точки в формате [lat, long]
-                });
+                    function (e) {
+                        var clusterGeoObjects = e.get('cluster').getGeoObjects();
+                        var hintContent = clusterGeoObjects[0].properties.get('hintContent');
+                        curPOI = hintContent;	// в hintContent мы ранее записали координаты точки в формате [lat, long]
+                    });
             }
 
             filterShops();
             $('.filter-reset').click(function(){
                 $('#filter-dir,#filter-service').find('[type=checkbox]:checked').prop('checked',false);
+                myMap.setCenter([lat, lan], zoom, {});
                 filterShops();
                 return false;
             })
-            $('#filter-dir,#filter-service').find('[type=checkbox]').change(filterShops);
-            $('#filter-city [type=checkbox]').change(function () {
-                var lng = parseFloat($(this).data('lng'));
+            $('#filter-dir,#filter-service').find('[type=checkbox]').change(function () {
+                filterShops();
+                myMap.setCenter([lat, lan], 6, {});
+            });
+            $('#filter-city [type=radio]').change(function () {
+                var lan = parseFloat($(this).data('lng'));
                 var lat = parseFloat($(this).data('lat'));
                 var z = parseInt($(this).data('z'));
-                myMap.setCenter([lat, lng], z, {});
+                selectedCity = $(this).data('city');
+                filterShops();
+                myMap.setCenter([lat, lan], z, {});
+            });
+            $('#shopmap').click(function(){
+                if(screen.width < 695) {
+                    myMap.container.enterFullscreen();
+                }
             });
         };
         $(document).on('click','#calcRouteRemove', function(){ // пользователь кликнул на очистку маршрута
             document.getElementById('descrRoute').innerHTML = '';
+            myMap.geoObjects.add(myRoute); // обновляем путь перед удалением
             myMap.geoObjects.remove(myRoute); // удаляем ранее построенный маршрут
             document.getElementById('clearRoute').style.display = 'none';
         });
         $('#shop-trace').appendTo('.modal-wrapper');
+        $('.filter-view').find('a').click(function(){
+            $('.filter-view .active').removeClass('active');
+            $(this).addClass('active');
+            $('#shopmap,#list-shop').hide();
+            $($(this).attr('href')).show();
+            return false;
+        })
+        $('.tab-contacts > a ').click(function(){
+            $('.tab-contacts-items,#tab-contacts').find('.active').removeClass('active');
+            $($(this).attr('href')).addClass('active');
+            $('.tab-contacts > a').removeClass('active');
+            $(this).addClass('active');
+            return false;
+        })
+
+        $('.tab-switch-maps-contacts > a').click(function () {
+            $('#maps,#contacts').removeClass('active');
+            $($(this).attr('href')).addClass('active');
+            $('.tab-switch-maps-contacts > a').removeClass('active');
+            $(this).addClass('active');
+        })
     });
-})(jQuery)
+})(jQuery);

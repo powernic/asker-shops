@@ -29,13 +29,13 @@
                         <th scope="row" class="check-column">
                             <input type="checkbox"></th>
                         <input type="hidden" name="data[]" value="<?=$item['name']?>"></th>
-                        <input type="hidden" name="lng[]" value="<?=$item['lng']?>"></th>
                         <input type="hidden" name="lat[]" value="<?=$item['lat']?>"></th>
+                        <input type="hidden" name="lng[]" value="<?=$item['lng']?>"></th>
                         <input type="hidden" name="zoom[]" value="<?=$item['zoom']?>"></th>
                         <input type="hidden" name="ids[]" value="<?=$id?>"></th>
                         <td class="title column-title column-primary"><?=$item['name']?></td>
-                        <td class="title column-lng column-primary"><?=$item['lng']?></td>
                         <td class="title column-lat column-primary"><?=$item['lat']?></td>
+                        <td class="title column-lng column-primary"><?=$item['lng']?></td>
                         <td class="title column-zoom column-primary"><?=$item['zoom']?></td>
                     </tr>
                 <?php endforeach;endif; ?>

@@ -163,11 +163,14 @@ if (!class_exists('MapShops')) {
                 wp_enqueue_script("jquery-ui-sortable", array('jquery', 'jquery-ui-core'));
                 wp_enqueue_script('mapshops', plugins_url('assets/js/mapshops.js', __FILE__), array(), '15022017', true);
             }else{
-                wp_enqueue_script('mapshops', plugins_url('assets/js/frontend.js', __FILE__), array(), '15052017', true);
+                wp_enqueue_script('mapshops', plugins_url('assets/js/frontend.js', __FILE__), array(), '26082017', true);
             }
         }
         public function init_styles(){
-            wp_enqueue_style("mapshops", plugins_url('assets/css/asker-shops.css', __FILE__), array(), '15022017' );
+            if (is_admin()) {
+                wp_enqueue_style("mapshops", plugins_url('assets/css/asker-shops.css', __FILE__), array(), '15022017');
+            }else {
+            }
         }
         public function shops_add_admin()
         {
