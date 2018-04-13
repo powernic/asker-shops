@@ -7,49 +7,12 @@
 <div id="maps" class="item-tab active">
     <div class="tab-contacts-items">
         <div id="shop-maps" class="active">
-            <span class="shop-info">Для расширенного поиска контактов используйте фильтры:</span>
-            <div id="shop-filter">
-                <div class="title-filter"><span class="icon icon-funnel"></span>ФИЛЬТР:</div>
-                <div class="filter-param"><span>Направления<span class="icon icon-arrow-down"></span></span>
-                    <ul class="nano" id="filter-dir">
-                        <?php
-                        global $mapshops;
-                        foreach ($mapshops->shopsData['dir'] as $value => $item) {
-                            echo "<li><label><input type='checkbox' value='$value'><span class='filter-check'></span>{$item}</label></li>";
-                        }
-                        ?></ul>
-                </div>
-                <div class="filter-param disable-check"><span>Города<span class="icon icon-arrow-down"></span></span>
-                    <ul class="nano" id="filter-city">
-                        <?php
-                        function cmp($a, $b) {
-                            if ($a['name'] === $b['name']) return 0;
-                            if($a['name'] == "Минск") return -1;
-                            if($b['name'] == "Минск") return 1;
-                            return $a['name'] > $b['name'] ? 1 : -1;
-                        }
-                        uasort($mapshops->shopsData['city'], cmp);
-                        
-                        foreach ($mapshops->shopsData['city'] as $item) {
-                            echo "<li><label><input type='radio' data-city=\"{$item['name']}\" name='city' data-lng=\"{$item['lng']}\" data-lat=\"{$item['lat']}\" data-z=\"{$item['zoom']}\" ><span class='filter-text'>{$item['name']}</span></label></li>";
-                        }
-                        ?></ul>
-                </div>
-                <div class="filter-param"><span>Сервисы/Услуги<span class="icon icon-arrow-down"></span></span>
-                    <ul class="nano" id="filter-service">
-                        <?php
-                        foreach ($mapshops->shopsData['service'] as $value => $item) {
-                            echo "<li><label><input type='checkbox' value='$value'><span class='filter-check'></span>{$item}</label></li>";
-                        }
-                        ?></ul>
-                </div>
-                <div class="filter-view">
-                    <a href="#list-shop">Списком</a>/<a href="#shopmap" class="active">На карте</a>
-                </div>
-                <a href="#" class="filter-reset">Сбросить фильтр</a>
+            <div class="description">
+                <?=get_the_post_meta("desc");?>
             </div>
             <script>
                 <?php
+                global $mapshops;
                 $items = $mapshops::getShops(); ?>
                 window.shops = <?php echo json_encode($items)?>;
             </script>
@@ -112,14 +75,11 @@
             'taxonomy' => 'personal_cat',
             'parent' => 0
         ));
-        foreach ($terms as $term) {
-            echo "<a href=\"#term-{$term->term_id}\">{$term->name}</a>";
-        }
         ?>
     </div>
     <div class="tab-contacts-items">
         <?php foreach ($terms as $term) : ?>
-            <div id="term-<?= $term->term_id ?>" class="personal-block">
+            <div id="term-<?= $term->term_id ?>" class="personal-block active">
                 <?php
                 $categories = get_terms(array(
                     'taxonomy' => 'personal_cat',

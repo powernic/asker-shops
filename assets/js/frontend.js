@@ -14,9 +14,9 @@ function IntersecArrays(A,B)
 
         window.selectedCity = '';
 
-        lat = 53.902692;
-        lan = 27.573522;
-        zoom = 10;
+        lat = 48.3708477;
+        lan = 66.99462891;
+        zoom = 5;
 
         var	// глобальные переменные, для упрощения передачи данных между объектами Promise
             visitorLocationObject, // объект типа IDataManager, содержащий текстовый адрес нахождения посетителя

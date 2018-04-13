@@ -158,7 +158,7 @@
                     $.each(shopElem,function(name,value){
                         if(value instanceof Array){
                             $.each(value,function(ind,item){
-                                newQuickEdit.find('[name="'+name+'[]"][value="'+item+'"]').attr('checked', true);
+                                newQuickEdit.find('[name="'+name+'[]"][value='+item+']').attr('checked', true);
                             });
                         }else{
                             newQuickEdit.find('[name='+name+']').val(value);
